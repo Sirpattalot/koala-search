@@ -1,6 +1,9 @@
 .App {
   text-align: center;
   overflow: hidden;
+  position: fixed;
+  height: 100%;
+  width: 100%;
 }
 
 .location-search {
