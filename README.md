@@ -18,5 +18,6 @@ Based on koala data from NSW government: https://www.planningportal.nsw.gov.au/o
 - Didn’t document too much, but left comments in places where something might be unclear. 
 - There’s some less than ideal stuff in the code eg. hasCurrentLocation in App.tsx. But it’s documented in the code, so I won’t repeat here. 
 
-cid:92D9A2DE-FB11-4D6B-A6BA-559B820FBF23![image](https://user-images.githubusercontent.com/12858317/185525102-9d5ee567-8b54-422e-9636-313ecb65759a.png)
+Initial prototype labelling regions by probability of koala sightings.
+![image](https://user-images.githubusercontent.com/12858317/185525102-9d5ee567-8b54-422e-9636-313ecb65759a.png)
 
