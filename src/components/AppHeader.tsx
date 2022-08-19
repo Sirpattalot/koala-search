@@ -1,39 +1,54 @@
-import { MyLocation, TuneRounded } from "@mui/icons-material"
-import { AppBar, IconButton, Toolbar, Typography } from "@mui/material"
-import { LatLngLiteral } from "leaflet"
-import { Dispatch, SetStateAction } from "react"
-import GooglePlacesAutocomplete, { geocodeByAddress, getLatLng } from "react-google-places-autocomplete"
+import { MyLocation, TuneRounded } from '@mui/icons-material';
+import { AppBar, IconButton, Toolbar, Typography } from '@mui/material';
+import { LatLngLiteral } from 'leaflet';
+import { Dispatch, SetStateAction } from 'react';
+import GooglePlacesAutocomplete, {
+  geocodeByAddress,
+  getLatLng,
+} from 'react-google-places-autocomplete';
 
 type AppHeaderProps = {
-  onSelectCurrentLocation: VoidFunction,
-  onSelectLocation: Dispatch<SetStateAction<LatLngLiteral | undefined>>,
-  onClickFilterBtn: VoidFunction,
-}
+  onSelectCurrentLocation: VoidFunction;
+  onSelectLocation: Dispatch<SetStateAction<LatLngLiteral | undefined>>;
+  onClickFilterBtn: VoidFunction;
+};
 
-function AppHeader({ onSelectCurrentLocation, onSelectLocation, onClickFilterBtn }: AppHeaderProps) {
-
-  const onSelectGoogleLocation = (selectedLocation: any) => { //any. not going to define a type for Google response.
+const AppHeader = ({
+  onSelectCurrentLocation,
+  onSelectLocation,
+  onClickFilterBtn,
+}: AppHeaderProps) => {
+  const onSelectGoogleLocation = (selectedLocation: any) => {
+    //any. not going to define a type for Google response.
 
     if (selectedLocation) {
       geocodeByAddress(selectedLocation.value.description)
-      .then( (results: any) => getLatLng(results[0])) //grab the first (most likely) google result
-      .then(({ lat, lng }) => {
-        const coordinates: LatLngLiteral = { lat, lng };
-        onSelectLocation(coordinates);
-      })
-      .catch( (e) => { console.log(e) })
+        .then((results: any) => getLatLng(results[0])) //grab the first (most likely) google result
+        .then(({ lat, lng }) => {
+          const coordinates: LatLngLiteral = { lat, lng };
+          onSelectLocation(coordinates);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     }
-  }
+  };
 
-  return(
-    <AppBar position="relative" sx={{ bgcolor: "#282c34", height: '10vh', justifyContent: 'center' }}>    
+  return (
+    <AppBar
+      position="relative"
+      sx={{ bgcolor: '#282c34', height: '10vh', justifyContent: 'center' }}
+    >
       <Toolbar>
-
         <Typography
           variant="h6"
           noWrap
           component="div"
-          sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' }, textAlign: 'left' }}
+          sx={{
+            flexGrow: 1,
+            display: { xs: 'none', sm: 'block' },
+            textAlign: 'left',
+          }}
         >
           KoalaSearch
         </Typography>
@@ -45,42 +60,43 @@ function AppHeader({ onSelectCurrentLocation, onSelectLocation, onClickFilterBtn
             color="inherit"
             aria-label="current location"
             sx={{ mr: 2 }}
-            onClick={ onSelectCurrentLocation }
-            >
+            onClick={onSelectCurrentLocation}
+          >
             <MyLocation />
           </IconButton>
 
-          { /* This component is annoying to style, and doesn't have sensible defaults */}
+          {/* This component is annoying to style, and doesn't have sensible defaults */}
           <GooglePlacesAutocomplete
             apiKey={process.env.REACT_APP_GOOGLE_API_KEY}
             autocompletionRequest={{
               componentRestrictions: {
                 country: ['au'],
-              }
+              },
             }}
             selectProps={{
               placeholder: 'Enter location...',
               onChange: onSelectGoogleLocation,
-              styles: googleAutocompleteStyles //defined below
+              styles: googleAutocompleteStyles, //defined below
             }}
           />
         </div>
 
         <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open filters"
-            sx={{ mr: 2 }}
-            onClick={() => { onClickFilterBtn() }}
-          >
-            <TuneRounded />
-          </IconButton>
-
-        </Toolbar>
+          size="large"
+          edge="start"
+          color="inherit"
+          aria-label="open filters"
+          sx={{ mr: 2 }}
+          onClick={() => {
+            onClickFilterBtn();
+          }}
+        >
+          <TuneRounded />
+        </IconButton>
+      </Toolbar>
     </AppBar>
   );
-}
+};
 
 export default AppHeader;
 
@@ -97,7 +113,7 @@ const googleAutocompleteStyles = {
   option: (provided: any) => ({
     ...provided,
     color: 'black',
-    cursor: 'pointer'
+    cursor: 'pointer',
   }),
   singleValue: (provided: any) => ({
     ...provided,
@@ -111,4 +127,4 @@ const googleAutocompleteStyles = {
     ...provided,
     cursor: 'pointer',
   }),
-}
+};

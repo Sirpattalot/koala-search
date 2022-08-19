@@ -13,9 +13,10 @@ const DEFAULT_MAX_DISTANCE = 50; //km
 const DEFAULT_MAX_RESULTS = 10;
 const DEFAULT_MIN_PROBABILITY = 0.6; //60%
 
-function App() {
-
-  const [minProbability, setMinProbability] = useState<number>(DEFAULT_MIN_PROBABILITY);
+const App = () => {
+  const [minProbability, setMinProbability] = useState<number>(
+    DEFAULT_MIN_PROBABILITY
+  );
   const [maxDistance, setMaxDistance] = useState<number>(DEFAULT_MAX_DISTANCE);
   const [maxResults, setMaxResults] = useState<number>(DEFAULT_MAX_RESULTS);
 
@@ -26,54 +27,48 @@ function App() {
   const [hasCurrentLocation, setHasCurrentLocation] = useState<number>(1);
 
   const [isFilterMenuOpen, setIsFilterMenuOpen] = useState<boolean>(false);
-  
 
-  useEffect( () => {
+  useEffect(() => {
     setSearchLocationToCurrent();
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const setSearchLocationToCurrent = () => {
-
     if (navigator.geolocation) {
-
       navigator.geolocation.getCurrentPosition(
-
         (pos: GeolocationPosition) => {
-          const currentPosition: LatLngLiteral = { lat: pos.coords.latitude, lng: pos.coords.longitude }
+          const currentPosition: LatLngLiteral = {
+            lat: pos.coords.latitude,
+            lng: pos.coords.longitude,
+          };
           setSearchLocation(currentPosition);
           setHasCurrentLocation(1);
         },
 
         (positionError: GeolocationPositionError) => {
           console.log(positionError);
-          setHasCurrentLocation(hasCurrentLocation - 1)
+          setHasCurrentLocation(hasCurrentLocation - 1);
         }
-
-      )
+      );
     } else {
       setHasCurrentLocation(hasCurrentLocation - 1);
-    } 
-    
+    }
+
     return;
-    
-  }
+  };
 
   return (
     <div className="App">
-
       <AppHeader
         onSelectCurrentLocation={setSearchLocationToCurrent}
         onSelectLocation={setSearchLocation}
         onClickFilterBtn={() => setIsFilterMenuOpen(true)}
       />
 
-      <LocationErrorNotification
-        hasCurrentLocation={hasCurrentLocation}
-      />
+      <LocationErrorNotification hasCurrentLocation={hasCurrentLocation} />
 
       <Drawer
         PaperProps={{ sx: { top: '10vh' } }}
-        anchor={"right"}
+        anchor={'right'}
         open={isFilterMenuOpen}
         onClose={() => setIsFilterMenuOpen(false)}
       >
@@ -87,10 +82,14 @@ function App() {
         />
       </Drawer>
 
-      <KoalaMap location={searchLocation} maxResults={maxResults} maxDistance={maxDistance} minProbability={minProbability} />
-
+      <KoalaMap
+        location={searchLocation}
+        maxResults={maxResults}
+        maxDistance={maxDistance}
+        minProbability={minProbability}
+      />
     </div>
   );
-}
+};
 
 export default App;

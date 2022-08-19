@@ -1,42 +1,52 @@
-import { Alert, Snackbar } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Alert, Snackbar } from '@mui/material';
+import { useEffect, useState } from 'react';
 
 type LocationErrorNotificationProps = {
-  hasCurrentLocation: number,
-}
+  hasCurrentLocation: number;
+};
 
-function LocationErrorNotification({ hasCurrentLocation }: LocationErrorNotificationProps) {
+const LocationErrorNotification = ({
+  hasCurrentLocation,
+}: LocationErrorNotificationProps) => {
+  const [notificationVisible, setNotificationVisible] =
+    useState<boolean>(false);
 
-  const [notificationVisible, setNotificationVisible] = useState<boolean>(false);
-
-  useEffect( () => {
+  useEffect(() => {
     if (hasCurrentLocation <= 0) {
       setNotificationVisible(true);
     }
-  }, [hasCurrentLocation])
+  }, [hasCurrentLocation]);
 
-  const handleNotificationClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+  const handleNotificationClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
     if (reason === 'clickaway') {
       return;
     }
     setNotificationVisible(false);
-  }
+  };
 
-  return(
+  return (
     <>
-      { notificationVisible &&
-        <Snackbar 
-          open={notificationVisible} 
-          autoHideDuration={4000} onClose={handleNotificationClose} 
-          anchorOrigin={{vertical: 'top', horizontal: 'left'}}
+      {notificationVisible && (
+        <Snackbar
+          open={notificationVisible}
+          autoHideDuration={4000}
+          onClose={handleNotificationClose}
+          anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
         >
-          <Alert onClose={handleNotificationClose} severity="error" sx={{ width: '100%' }}>
+          <Alert
+            onClose={handleNotificationClose}
+            severity="error"
+            sx={{ width: '100%' }}
+          >
             Location not supported or allowed.
           </Alert>
         </Snackbar>
-      }
+      )}
     </>
-  )
-}
+  );
+};
 
 export default LocationErrorNotification;
