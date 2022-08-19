@@ -1,9 +1,13 @@
 # Koala Search
 
+Demo: https://octopus-app-ohip2.ondigitalocean.app/
+
 Create React App with Typescript hosted with DigitalOcean Apps.
 
 Based on koala data from NSW government: https://www.planningportal.nsw.gov.au/opendata/dataset/koala-likelihood-map-v2-0-august-2019
 
+- Only tested on latest desktop Chrome, and Safari.
+- Works fine on iPhone 6S with iOS 15.4 (Safari). I've noticed the AppHeader can disappear on some mobile devices - just some CSS tweaking required.
 - I used https://mapshaper.org/ to get the shapefile into GeoJSON format. Ran into some issues regarding spatial reference systems in the resulting data but mostly smooth.
 - Leaflet with a MapBox baselayer.
 - I spent a few hours getting a handle on shapefile data, geoJSON, Leaflet, and rendering to a map. I ended up building a basic version of the NSW gov map (image below). I discarded majority of this.
