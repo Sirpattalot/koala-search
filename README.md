@@ -1,46 +1,22 @@
-# Getting Started with Create React App
+# Koala Search
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Create React App with Typescript hosted with DigitalOcean Apps.
 
-## Available Scripts
+Based on koala data from NSW government: https://www.planningportal.nsw.gov.au/opendata/dataset/koala-likelihood-map-v2-0-august-2019
 
-In the project directory, you can run:
+- I used https://mapshaper.org/ to get the shapefile into GeoJSON format. Ran into some issues regarding spatial reference systems in the resulting data but mostly smooth.
+- Leaflet with a MapBox baselayer.
+- I spent a few hours getting a handle on shapefile data, geoJSON, Leaflet, and rendering to a map. I ended up building a basic version of the NSW gov map (image below). I discarded majority of this.
+- After building the version in the previous point, I noticed the stark performance difference between a blank map, and a map full of koala data. So I trimmed the GeoJSON data of all values where probability=0 and probability=999 (no data). Then instead of representing each koala region as 5 coordinates, I reduced them down to a single coordinate at the centre of the region. I also reduced the properties down to just probability (previously there was koala location id, confidence, N, etc). I just embedded this resulting json data straight into a ts file.
+- I spent more time than I should have playing around with OSM/Nominatim API for searching places, but it was terrible despite my best efforts. I jumped ship and went to Google Places/Geocode API in the name of user experience.
+- The google-autocomplete package I used wasn’t too great either. It had terrible defaults for styling, and a weird way to override.
+- I’ve only used Bootstrap and Tailwind previously, so I’ll sheepishly admit this is the first time I’ve used a component library (MUI). On the one hand, it really increased development speed and I enjoyed it a lot. On the other, hot reloading wasn’t so hot anymore. The performance hit is immense. In future projects, I’ll look for a nice middle ground.
+- Red flag - I’m using three different techniques for styling components: that frustrating method google-autocomplete package requires, MUI sx={{ color: ‘red’ }}, and a good old fashioned css file on principle (my go to). 
+- I may be dependency averse (sometimes to a fault), so for this project I went wild.
+- It turned out that after I wrote the script to filter/reduce my geoJSON data, I’d already written majority of the code for having actual filters (probability, max results, distance). And I wanted to use more MUI components to get a better handle on them.
+- I used a SmoothZoom addon for Leaflet I found on Github. I couldn’t believe they have such a janky zoom built-in. Definitely was not smooth for user.
+- Didn’t document too much, but left comments in places where something might be unclear. 
+- There’s some less than ideal stuff in the code eg. hasCurrentLocation in App.tsx. But it’s documented in the code, so I won’t repeat here. 
 
-### `npm start`
+cid:92D9A2DE-FB11-4D6B-A6BA-559B820FBF23![image](https://user-images.githubusercontent.com/12858317/185525102-9d5ee567-8b54-422e-9636-313ecb65759a.png)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
