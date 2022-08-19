@@ -21,6 +21,7 @@ Based on koala data from NSW government: https://www.planningportal.nsw.gov.au/o
 - I used a SmoothZoom addon for Leaflet I found on Github. I couldn’t believe they have such a janky zoom built-in. Definitely was not smooth for user.
 - Didn’t document too much, but left comments in places where something might be unclear. 
 - There’s some less than ideal stuff in the code eg. hasCurrentLocation in App.tsx. But it’s documented in the code, so I won’t repeat here. 
+- The API keys I used are set with environmental variables, but can share them if you want to run locally (pretty sure you could inspect in dev tools network and grab them from there too - naughty).
 
 Initial prototype labelling regions by probability of koala sightings.
 ![image](https://user-images.githubusercontent.com/12858317/185525102-9d5ee567-8b54-422e-9636-313ecb65759a.png)
